@@ -1,4 +1,4 @@
-const FORM_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_FORM_ID';
+const FORM_ENDPOINT = '/api/demo-request';
 
 const menuToggle = document.querySelector('.menu-toggle');
 const primaryNav = document.querySelector('.primary-nav');
@@ -48,12 +48,6 @@ contactForm?.addEventListener('submit', async (event) => {
     return;
   }
 
-  if (FORM_ENDPOINT.includes('REPLACE_WITH_FORM_ID')) {
-    formStatus.textContent = 'The private demo inbox is being connected. Please check back shortly.';
-    formStatus.className = 'form-status form-status--error';
-    return;
-  }
-
   const submitButton = contactForm.querySelector('button[type="submit"]');
   const originalLabel = submitButton.textContent;
   submitButton.disabled = true;
@@ -62,13 +56,20 @@ contactForm?.addEventListener('submit', async (event) => {
   formStatus.className = 'form-status';
 
   try {
+    const formData = new FormData(contactForm);
+    const payload = Object.fromEntries(formData.entries());
+
     const response = await fetch(FORM_ENDPOINT, {
       method: 'POST',
-      body: new FormData(contactForm),
-      headers: { Accept: 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
     });
 
-    if (!response.ok) throw new Error('Submission failed');
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error || 'Submission failed');
 
     contactForm.reset();
     formStatus.textContent = 'Thank you—your demo request has been received. Richard will follow up personally.';

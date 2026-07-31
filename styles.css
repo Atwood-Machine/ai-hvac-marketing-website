@@ -404,3 +404,103 @@ body { padding-top: env(safe-area-inset-top, 0px); }
   .footer-bottom { flex-direction: column; }
   .demo-invitation { padding: 28px 20px; }
 }
+
+/* Mobile width fix — prevent the hero artwork from widening the page */
+.hero-layout > *,
+.hero-copy,
+.hero-visual,
+.package-stage {
+  min-width: 0;
+}
+
+@media (max-width: 680px) {
+  :root { --container: calc(100% - 28px); }
+
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .container {
+    width: calc(100% - 28px);
+    max-width: 100%;
+  }
+
+  .hero-copy {
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .hero-copy .eyebrow {
+    justify-content: flex-start;
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.45;
+  }
+
+  .hero h1 {
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(2.35rem, 11.4vw, 3.25rem);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-lead {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+    font-size: 1.04rem;
+  }
+
+  .hero-actions,
+  .hero-proof {
+    justify-content: stretch;
+  }
+
+  .hero-package-visual {
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .package-stage {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    transform: none;
+  }
+
+  .package-glow,
+  .package-card--back,
+  .delivery-badge {
+    display: none;
+  }
+
+  .package-card--main {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    max-width: 390px;
+    margin-inline: auto;
+    transform: none;
+  }
+
+  .package-card__art {
+    min-height: 250px;
+  }
+
+  .package-card__art h3 {
+    font-size: 1.4rem;
+    max-width: 62%;
+  }
+
+  .package-card__footer {
+    flex-wrap: wrap;
+  }
+}
