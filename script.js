@@ -1,3 +1,5 @@
+const FORM_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_FORM_ID';
+
 const menuToggle = document.querySelector('.menu-toggle');
 const primaryNav = document.querySelector('.primary-nav');
 
@@ -14,58 +16,68 @@ primaryNav?.querySelectorAll('a').forEach((link) => {
   });
 });
 
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.12 }
-);
+const revealElements = document.querySelectorAll('.reveal');
+if ('IntersectionObserver' in window) {
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08 }
+  );
+  revealElements.forEach((element) => revealObserver.observe(element));
+} else {
+  revealElements.forEach((element) => element.classList.add('visible'));
+}
 
-document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
-
-document.getElementById('year').textContent = new Date().getFullYear();
+const year = document.getElementById('year');
+if (year) year.textContent = new Date().getFullYear();
 
 const contactForm = document.getElementById('contact-form');
-contactForm?.addEventListener('submit', (event) => {
+const formStatus = document.getElementById('form-status');
+
+contactForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
-  const formData = new FormData(contactForm);
-  const subject = `AI HVAC Marketing Demo Request — ${formData.get('company') || 'New Lead'}`;
-  const body = [
-    `Name: ${formData.get('name') || ''}`,
-    `Company: ${formData.get('company') || ''}`,
-    `Email: ${formData.get('email') || ''}`,
-    `Phone: ${formData.get('phone') || ''}`,
-    `Service Area: ${formData.get('serviceArea') || ''}`,
-    '',
-    'Message:',
-    `${formData.get('message') || ''}`,
-  ].join('\n');
 
-  window.location.href = `mailto:richard@aihvacmarketing.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-});
+  if (!contactForm.checkValidity()) {
+    contactForm.reportValidity();
+    return;
+  }
 
-const modal = document.getElementById('demo-modal');
-const openDemo = document.querySelector('[data-demo-trigger]');
-const closeDemoControls = document.querySelectorAll('[data-modal-close]');
+  if (FORM_ENDPOINT.includes('REPLACE_WITH_FORM_ID')) {
+    formStatus.textContent = 'The private demo inbox is being connected. Please check back shortly.';
+    formStatus.className = 'form-status form-status--error';
+    return;
+  }
 
-const closeModal = () => {
-  modal.hidden = true;
-  document.body.style.overflow = '';
-};
+  const submitButton = contactForm.querySelector('button[type="submit"]');
+  const originalLabel = submitButton.textContent;
+  submitButton.disabled = true;
+  submitButton.textContent = 'Sending…';
+  formStatus.textContent = '';
+  formStatus.className = 'form-status';
 
-openDemo?.addEventListener('click', () => {
-  modal.hidden = false;
-  document.body.style.overflow = 'hidden';
-  modal.querySelector('.modal-close')?.focus();
-});
+  try {
+    const response = await fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      body: new FormData(contactForm),
+      headers: { Accept: 'application/json' },
+    });
 
-closeDemoControls.forEach((control) => control.addEventListener('click', closeModal));
+    if (!response.ok) throw new Error('Submission failed');
 
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && !modal.hidden) closeModal();
+    contactForm.reset();
+    formStatus.textContent = 'Thank you—your demo request has been received. Richard will follow up personally.';
+    formStatus.className = 'form-status form-status--success';
+  } catch (error) {
+    formStatus.textContent = 'We could not send your request. Please try again in a moment.';
+    formStatus.className = 'form-status form-status--error';
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = originalLabel;
+  }
 });

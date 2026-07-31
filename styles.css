@@ -355,3 +355,52 @@ button { cursor: pointer; }
   .scripture-cross-image { width: 140px; height: 140px; }
   .about-photo img { min-height: 390px; }
 }
+
+/* Final mobile and form refinements */
+html { scroll-padding-top: 96px; }
+body { padding-top: env(safe-area-inset-top, 0px); }
+.faith-ribbon { padding-top: env(safe-area-inset-top, 0px); }
+.contact-promise { display: grid; gap: 7px; margin-top: 28px; padding: 18px 20px; border-radius: 14px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); }
+.contact-promise strong { color: white; }
+.contact-promise span { color: #b9cae1; font-size: .9rem; }
+.form-heading { margin-bottom: 20px; }
+.form-heading span { color: var(--red); font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.form-heading h3 { margin: 6px 0 0; color: var(--navy); font-size: 1.5rem; }
+.optional { color: #7c8799; font-size: .7rem; font-weight: 500; }
+.honeypot { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important; }
+.form-status { min-height: 1.4em; margin: 12px 0 0; text-align: center; font-size: .82rem; font-weight: 650; }
+.form-status--success { color: #13734d; }
+.form-status--error { color: #a31e38; }
+.contact-form button:disabled { opacity: .68; cursor: wait; }
+.demo-invitation { padding: 38px; }
+.demo-icon { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 50%; background: var(--red); color: white; font-size: 1.45rem; box-shadow: 0 15px 35px rgba(200,16,46,.35); }
+.footer-grid span { color: #a9bedc; font-size: .86rem; }
+
+@media (max-width: 680px) {
+  html { scroll-padding-top: 72px; }
+  body { overflow-x: hidden; }
+  .faith-ribbon { position: relative; }
+  .faith-ribbon__inner { min-height: 44px; padding-block: 6px; }
+  .faith-ribbon__icon { width: 26px; height: 26px; flex: 0 0 auto; }
+  .site-header { position: relative; top: auto; }
+  .header-inner { min-height: 70px; }
+  .brand img { width: 188px; height: auto; }
+  .primary-nav { top: calc(100% + 8px); left: 14px; right: 14px; z-index: 150; }
+  .hero { padding-top: 54px; }
+  .hero-layout { gap: 48px; }
+  .hero-actions { width: 100%; }
+  .hero-actions .button { width: 100%; }
+  .hero-proof { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; gap: 8px; }
+  .hero-proof div { min-width: 0; padding: 12px 6px; }
+  .hero-proof strong { font-size: 1.15rem; }
+  .hero-proof span { font-size: .66rem; }
+  .scripture-feature { padding-block: 62px; }
+  .scripture-cross-image { width: 132px; }
+  .section { padding-block: 70px; }
+  .contact-form { padding: 22px 18px; }
+  .field-row { grid-template-columns: 1fr; gap: 0; }
+  .contact-layout { gap: 36px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; }
+  .demo-invitation { padding: 28px 20px; }
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Done-for-you social media and Google Business content built specifically for independent HVAC contractors." />
   <title>AI HVAC Marketing | Local. Seasonal. Done for you.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -209,12 +209,11 @@
           <p>See how your company information, local market, approved offers, and seasonal priorities become polished content for Facebook, Instagram, and Google Business.</p>
           <a class="button button--light" href="#contact">Request a Live Demo</a>
         </div>
-        <div class="video-placeholder reveal reveal--delay">
-          <button class="play-button" type="button" aria-label="Play demo video" data-demo-trigger>▶</button>
-          <div>
-            <strong>2-Minute Product Walkthrough</strong>
-            <span>Replace this panel with Richard's screen-recording when ready.</span>
-          </div>
+        <div class="video-placeholder demo-invitation reveal reveal--delay">
+          <div class="demo-icon" aria-hidden="true">▶</div>
+          <div><strong>See the service built around your business</strong><span>Request a personal walkthrough of the customized monthly package and review process.</span></div>
+          <a class="button" href="#contact">Request a Personal Demo</a>
+        </div>
         </div>
       </div>
     </section>
@@ -316,26 +315,31 @@
           <div class="eyebrow eyebrow--light">Start the conversation</div>
           <h2 id="contact-heading">See what a month of marketing could look like for your HVAC business.</h2>
           <p>Tell Richard a little about your company and he will follow up to schedule a personal demo.</p>
-          <div class="contact-details">
-            <a href="tel:+18312279192">831-227-9192</a>
-            <a href="mailto:richard@aihvacmarketing.com">richard@aihvacmarketing.com</a>
-            <span>Serving independent HVAC contractors nationwide</span>
+          <div class="contact-promise">
+            <strong>A short first step—not a client intake form.</strong>
+            <span>Share the basics below. Richard will follow up personally to answer questions and arrange a demo.</span>
           </div>
         </div>
 
-        <form class="contact-form reveal reveal--delay" id="contact-form">
+        <form class="contact-form reveal reveal--delay" id="contact-form" novalidate>
+          <div class="form-heading">
+            <span>Demo request</span>
+            <h3>Tell us where to reach you.</h3>
+          </div>
           <div class="field-row">
             <label>Full Name<input type="text" name="name" autocomplete="name" required /></label>
-            <label>Company<input type="text" name="company" autocomplete="organization" required /></label>
+            <label>HVAC Company<input type="text" name="company" autocomplete="organization" required /></label>
           </div>
           <div class="field-row">
             <label>Email<input type="email" name="email" autocomplete="email" required /></label>
-            <label>Phone<input type="tel" name="phone" autocomplete="tel" /></label>
+            <label>Phone <span class="optional">Optional</span><input type="tel" name="phone" autocomplete="tel" /></label>
           </div>
-          <label>Primary Service Area<input type="text" name="serviceArea" placeholder="City, county, or region" /></label>
-          <label>What would you like help with?<textarea name="message" rows="5" placeholder="Tell us about your current marketing and what you want to improve."></textarea></label>
-          <button class="button button--full" type="submit">Schedule My Demo</button>
-          <p class="form-note">Submitting opens a prepared email to Richard. No information is stored on this website.</p>
+          <label>City or Service Area<input type="text" name="serviceArea" autocomplete="address-level2" required /></label>
+          <label>What would you like help with? <span class="optional">Optional</span><textarea name="message" rows="4" placeholder="For example: staying consistent, promoting seasonal services, or improving Google visibility."></textarea></label>
+          <input type="text" name="_gotcha" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button class="button button--full" type="submit">Request My Demo</button>
+          <p class="form-note">This is only a demo request. We will never ask for account passwords or payment information here.</p>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
     </section>
@@ -364,10 +368,9 @@
         <a href="#about">About</a>
       </div>
       <div>
-        <h3>Contact</h3>
-        <a href="tel:+18312279192">831-227-9192</a>
-        <a href="mailto:richard@aihvacmarketing.com">richard@aihvacmarketing.com</a>
-        <a href="#contact">Schedule a Demo</a>
+        <h3>Get Started</h3>
+        <a href="#contact">Request a Demo</a>
+        <span>Serving independent HVAC contractors nationwide</span>
       </div>
     </div>
     <div class="container footer-bottom">
@@ -375,16 +378,6 @@
       <span>Smart Marketing Solutions for HVAC Professionals</span>
     </div>
   </footer>
-
-  <div class="modal" id="demo-modal" hidden>
-    <div class="modal-backdrop" data-modal-close></div>
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <button class="modal-close" type="button" aria-label="Close demo" data-modal-close>×</button>
-      <h2 id="modal-title">Demo Video Placeholder</h2>
-      <p>Add Richard's final screen recording by replacing the placeholder in the Demo section with a YouTube, Vimeo, or uploaded MP4 embed.</p>
-      <a class="button" href="#contact" data-modal-close>Request a Live Demo</a>
-    </div>
-  </div>
 
   <script src="script.js"></script>
 </body>
