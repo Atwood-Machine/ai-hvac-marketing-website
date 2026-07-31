@@ -37,6 +37,50 @@ if ('IntersectionObserver' in window) {
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
 
+
+
+// Subtle desktop-only hero motion. It automatically disables on touch devices
+// and for visitors who prefer reduced motion.
+const hero = document.querySelector('.hero');
+const canUseHeroMotion =
+  hero &&
+  window.matchMedia('(pointer: fine)').matches &&
+  !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (canUseHeroMotion) {
+  let frameId = null;
+
+  const updateHeroMotion = (event) => {
+    if (frameId) cancelAnimationFrame(frameId);
+
+    frameId = requestAnimationFrame(() => {
+      const bounds = hero.getBoundingClientRect();
+      const x = Math.min(Math.max(event.clientX - bounds.left, 0), bounds.width);
+      const y = Math.min(Math.max(event.clientY - bounds.top, 0), bounds.height);
+      const normalizedX = x / bounds.width - 0.5;
+      const normalizedY = y / bounds.height - 0.5;
+
+      hero.style.setProperty('--hero-mouse-x', `${x}px`);
+      hero.style.setProperty('--hero-mouse-y', `${y}px`);
+      hero.style.setProperty('--hero-shift-x', `${normalizedX * 14}px`);
+      hero.style.setProperty('--hero-shift-y', `${normalizedY * 10}px`);
+      hero.style.setProperty('--hero-card-x', `${normalizedX * 7}px`);
+      hero.style.setProperty('--hero-card-y', `${normalizedY * 5}px`);
+      hero.classList.add('hero--interactive');
+    });
+  };
+
+  hero.addEventListener('pointermove', updateHeroMotion, { passive: true });
+  hero.addEventListener('pointerleave', () => {
+    if (frameId) cancelAnimationFrame(frameId);
+    hero.classList.remove('hero--interactive');
+    hero.style.removeProperty('--hero-shift-x');
+    hero.style.removeProperty('--hero-shift-y');
+    hero.style.removeProperty('--hero-card-x');
+    hero.style.removeProperty('--hero-card-y');
+  });
+}
+
 const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
 

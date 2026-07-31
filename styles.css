@@ -62,6 +62,57 @@ button { cursor: pointer; }
 
 .hero { position: relative; overflow: hidden; background: radial-gradient(circle at 75% 25%, rgba(68,124,192,.22), transparent 35%), linear-gradient(125deg, #071a36 0%, #102f5e 58%, #1b3a6b 100%); color: white; padding: 95px 0 105px; }
 .hero::after { content: ""; position: absolute; width: 540px; height: 540px; border: 1px solid rgba(255,255,255,.08); border-radius: 50%; right: -110px; bottom: -240px; }
+
+/* Subtle desktop hero motion */
+.hero {
+  --hero-mouse-x: 75%;
+  --hero-mouse-y: 25%;
+  --hero-shift-x: 0px;
+  --hero-shift-y: 0px;
+  --hero-card-x: 0px;
+  --hero-card-y: 0px;
+  isolation: isolate;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--hero-mouse-x) var(--hero-mouse-y),
+    rgba(126, 169, 223, 0.22),
+    rgba(126, 169, 223, 0.08) 35%,
+    transparent 68%
+  );
+  transition: opacity 320ms ease;
+}
+
+.hero.hero--interactive::before { opacity: 1; }
+
+.hero-grid {
+  transform: translate3d(var(--hero-shift-x), var(--hero-shift-y), 0) scale(1.035);
+  transition: transform 420ms cubic-bezier(.2,.8,.2,1);
+  will-change: transform;
+}
+
+.hero-package-visual {
+  transform: translate3d(var(--hero-card-x), var(--hero-card-y), 0);
+  transition: transform 420ms cubic-bezier(.2,.8,.2,1);
+  will-change: transform;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .hero::before { display: none; }
+  .hero-grid,
+  .hero-package-visual {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 .hero-grid { position: absolute; inset: 0; opacity: .09; background-image: linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px); background-size: 54px 54px; mask-image: linear-gradient(to right, transparent, black); }
 .hero-layout { position: relative; z-index: 2; display: grid; grid-template-columns: 1.02fr 1fr; gap: 58px; align-items: center; }
 .eyebrow { display: inline-flex; align-items: center; gap: 10px; color: #7ea9df; font-size: .76rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 18px; }
