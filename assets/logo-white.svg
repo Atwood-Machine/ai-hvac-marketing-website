@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 215" role="img" aria-labelledby="title desc">
+  <title id="title">AI HVAC Marketing</title>
+  <desc id="desc">White AI HVAC Marketing logo for dark backgrounds.</desc>
+  <g transform="translate(8 18)">
+    <circle cx="100" cy="89" r="72" fill="none" stroke="#ffffff" stroke-width="11"/>
+    <path d="M31 89h138M100 17c-24 21-36 46-36 72s12 51 36 72M100 17c24 21 36 46 36 72s-12 51-36 72M39 53c18 11 39 16 61 16s43-5 61-16M39 125c18-11 39-16 61-16s43 5 61 16" fill="none" stroke="#9fb5d5" stroke-width="3"/>
+    <path d="M27 151l47-56 25 25 52-70 29 18-2-53-51 12 17 10-48 64-24-25-59 70z" fill="#c8102e" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M69 155v-42l31-25 31 25v42h-20v-30H90v30z" fill="#ffffff"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="800">
+    <text x="205" y="87" font-size="74" fill="#ffffff">AI HVAC</text>
+    <text x="205" y="150" font-size="64" fill="#ffffff">MARKETING</text>
+    <text x="207" y="185" font-size="23" letter-spacing="3" fill="#d5dfed">SMART MARKETING SOLUTIONS</text>
+  </g>
+</svg>
