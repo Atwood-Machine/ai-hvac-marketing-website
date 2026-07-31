@@ -110,9 +110,6 @@ app.use(express.static(SITE_DIR, {
   maxAge: '1h',
 }));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(SITE_DIR, 'index.html'));
-});
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`AI HVAC Marketing website running on port ${PORT}`);
