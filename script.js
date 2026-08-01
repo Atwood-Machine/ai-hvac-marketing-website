@@ -39,8 +39,9 @@ if (year) year.textContent = new Date().getFullYear();
 
 
 
-// Subtle desktop-only hero motion. It automatically disables on touch devices
-// and for visitors who prefer reduced motion.
+// Visible desktop-only hero interaction. A soft spotlight follows the cursor,
+// the background grid drifts, and the package tilts toward the pointer.
+// Touch devices and reduced-motion visitors receive the stable layout.
 const hero = document.querySelector('.hero');
 const canUseHeroMotion =
   hero &&
@@ -48,36 +49,65 @@ const canUseHeroMotion =
   !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (canUseHeroMotion) {
-  let frameId = null;
+  let animationFrame = null;
+  let isInside = false;
+  const current = { x: 0, y: 0 };
+  const target = { x: 0, y: 0 };
 
-  const updateHeroMotion = (event) => {
-    if (frameId) cancelAnimationFrame(frameId);
+  const renderHeroMotion = () => {
+    // Smoothly ease toward the cursor instead of snapping to it.
+    current.x += (target.x - current.x) * 0.11;
+    current.y += (target.y - current.y) * 0.11;
 
-    frameId = requestAnimationFrame(() => {
-      const bounds = hero.getBoundingClientRect();
-      const x = Math.min(Math.max(event.clientX - bounds.left, 0), bounds.width);
-      const y = Math.min(Math.max(event.clientY - bounds.top, 0), bounds.height);
-      const normalizedX = x / bounds.width - 0.5;
-      const normalizedY = y / bounds.height - 0.5;
+    const bounds = hero.getBoundingClientRect();
+    const lightX = bounds.width * (0.5 + current.x * 0.48);
+    const lightY = bounds.height * (0.5 + current.y * 0.48);
 
-      hero.style.setProperty('--hero-mouse-x', `${x}px`);
-      hero.style.setProperty('--hero-mouse-y', `${y}px`);
-      hero.style.setProperty('--hero-shift-x', `${normalizedX * 14}px`);
-      hero.style.setProperty('--hero-shift-y', `${normalizedY * 10}px`);
-      hero.style.setProperty('--hero-card-x', `${normalizedX * 7}px`);
-      hero.style.setProperty('--hero-card-y', `${normalizedY * 5}px`);
-      hero.classList.add('hero--interactive');
-    });
+    hero.style.setProperty('--hero-mouse-x', `${lightX}px`);
+    hero.style.setProperty('--hero-mouse-y', `${lightY}px`);
+    hero.style.setProperty('--hero-shift-x', `${current.x * 28}px`);
+    hero.style.setProperty('--hero-shift-y', `${current.y * 20}px`);
+    hero.style.setProperty('--hero-card-x', `${current.x * 18}px`);
+    hero.style.setProperty('--hero-card-y', `${current.y * 13}px`);
+    hero.style.setProperty('--hero-rotate-x', `${current.y * -7}deg`);
+    hero.style.setProperty('--hero-rotate-y', `${current.x * 9}deg`);
+    hero.style.setProperty('--hero-orb-x', `${current.x * -34}px`);
+    hero.style.setProperty('--hero-orb-y', `${current.y * -24}px`);
+
+    const stillMoving =
+      Math.abs(target.x - current.x) > 0.001 ||
+      Math.abs(target.y - current.y) > 0.001;
+
+    if (isInside || stillMoving) {
+      animationFrame = requestAnimationFrame(renderHeroMotion);
+    } else {
+      animationFrame = null;
+    }
   };
 
-  hero.addEventListener('pointermove', updateHeroMotion, { passive: true });
+  const startAnimation = () => {
+    if (!animationFrame) animationFrame = requestAnimationFrame(renderHeroMotion);
+  };
+
+  hero.addEventListener('pointerenter', () => {
+    isInside = true;
+    hero.classList.add('hero--interactive');
+    startAnimation();
+  });
+
+  hero.addEventListener('pointermove', (event) => {
+    const bounds = hero.getBoundingClientRect();
+    target.x = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width - 0.5) * 2));
+    target.y = Math.max(-1, Math.min(1, ((event.clientY - bounds.top) / bounds.height - 0.5) * 2));
+    startAnimation();
+  }, { passive: true });
+
   hero.addEventListener('pointerleave', () => {
-    if (frameId) cancelAnimationFrame(frameId);
+    isInside = false;
+    target.x = 0;
+    target.y = 0;
     hero.classList.remove('hero--interactive');
-    hero.style.removeProperty('--hero-shift-x');
-    hero.style.removeProperty('--hero-shift-y');
-    hero.style.removeProperty('--hero-card-x');
-    hero.style.removeProperty('--hero-card-y');
+    startAnimation();
   });
 }
 
