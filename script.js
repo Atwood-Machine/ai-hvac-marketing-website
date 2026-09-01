@@ -111,40 +111,6 @@ if (canUseHeroMotion) {
   });
 }
 
-// 60-second business-case carousel
-const carousel = document.querySelector('[data-carousel]');
-if (carousel) {
-  const track = carousel.querySelector('.carousel-track');
-  const slides = [...carousel.querySelectorAll('.case-slide')];
-  const dotsWrap = carousel.querySelector('.carousel-controls');
-  let index = 0;
-  const dots = slides.map((_, i) => {
-    const dot = document.createElement('button');
-    dot.type = 'button';
-    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', `Go to insight ${i + 1}`);
-    dot.addEventListener('click', () => goTo(i));
-    dotsWrap.appendChild(dot);
-    return dot;
-  });
-  function goTo(next) {
-    index = (next + slides.length) % slides.length;
-    track.style.transform = `translateX(-${index * 100}%)`;
-    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
-  }
-  carousel.querySelector('.carousel-arrow--prev')?.addEventListener('click', () => goTo(index - 1));
-  carousel.querySelector('.carousel-arrow--next')?.addEventListener('click', () => goTo(index + 1));
-  carousel.querySelectorAll('.slide-next').forEach(button => button.addEventListener('click', () => goTo(index + 1)));
-  let startX = null;
-  carousel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-  carousel.addEventListener('touchend', e => {
-    if (startX === null) return;
-    const dx = e.changedTouches[0].clientX - startX;
-    if (Math.abs(dx) > 45) goTo(index + (dx < 0 ? 1 : -1));
-    startX = null;
-  }, { passive: true });
-}
-
 const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
 
@@ -190,3 +156,41 @@ contactForm?.addEventListener('submit', async (event) => {
     submitButton.textContent = originalLabel;
   }
 });
+
+// 60-second opportunity carousel
+const opportunityCarousel = document.querySelector('[data-carousel]');
+if (opportunityCarousel) {
+  const slides = [...opportunityCarousel.querySelectorAll('.opportunity-slide')];
+  const prev = opportunityCarousel.querySelector('.carousel-arrow--prev');
+  const next = opportunityCarousel.querySelector('.carousel-arrow--next');
+  const dotsWrap = opportunityCarousel.querySelector('.carousel-dots');
+  let active = 0;
+  let touchStartX = null;
+
+  const dots = slides.map((_, index) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'carousel-dot';
+    dot.setAttribute('aria-label', `Show fact ${index + 1}`);
+    dot.addEventListener('click', () => show(index));
+    dotsWrap.appendChild(dot);
+    return dot;
+  });
+
+  function show(index) {
+    active = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => slide.classList.toggle('is-active', i === active));
+    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === active));
+  }
+
+  prev?.addEventListener('click', () => show(active - 1));
+  next?.addEventListener('click', () => show(active + 1));
+  opportunityCarousel.addEventListener('touchstart', (event) => { touchStartX = event.touches[0]?.clientX ?? null; }, { passive:true });
+  opportunityCarousel.addEventListener('touchend', (event) => {
+    if (touchStartX == null) return;
+    const endX = event.changedTouches[0]?.clientX ?? touchStartX;
+    if (Math.abs(endX - touchStartX) > 45) show(active + (endX < touchStartX ? 1 : -1));
+    touchStartX = null;
+  }, { passive:true });
+  show(0);
+}
