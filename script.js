@@ -134,6 +134,7 @@ if (carousel) {
   }
   carousel.querySelector('.carousel-arrow--prev')?.addEventListener('click', () => goTo(index - 1));
   carousel.querySelector('.carousel-arrow--next')?.addEventListener('click', () => goTo(index + 1));
+  carousel.querySelectorAll('.slide-next').forEach(button => button.addEventListener('click', () => goTo(index + 1)));
   let startX = null;
   carousel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
   carousel.addEventListener('touchend', e => {
