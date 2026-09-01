@@ -627,3 +627,22 @@ body { padding-top: env(safe-area-inset-top, 0px); }
 /* Carousel cleanup: keep customer-facing only */
 .slide-count, .carousel-counter, .opportunity-count, [class*="slide-count"] { display:none !important; }
 .opportunity-source { display:none !important; }
+
+/* Section rhythm polish — keep existing content/layout, improve background cadence */
+.problem-section {
+  background: var(--light);
+}
+
+.opportunity-carousel {
+  background: linear-gradient(180deg, #fffaf2 0%, #fffdf8 100%);
+  border-top: 1px solid #f1e8d8;
+  border-bottom: 1px solid #f1e8d8;
+}
+
+#how-it-works.section--light {
+  background: #ffffff;
+}
+
+#what-you-get {
+  background: var(--light);
+}
