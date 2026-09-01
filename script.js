@@ -179,7 +179,11 @@ if (opportunityCarousel) {
 
   function show(index) {
     active = (index + slides.length) % slides.length;
-    slides.forEach((slide, i) => slide.classList.toggle('is-active', i === active));
+    slides.forEach((slide, i) => {
+      const isActive = i === active;
+      slide.classList.toggle('is-active', isActive);
+      slide.hidden = !isActive;
+    });
     dots.forEach((dot, i) => dot.classList.toggle('is-active', i === active));
   }
 

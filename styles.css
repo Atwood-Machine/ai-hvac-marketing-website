@@ -600,8 +600,9 @@ body { padding-top: env(safe-area-inset-top, 0px); }
 .opportunity-track { position:relative; min-height:350px; }
 .opportunity-slide { display:none; min-height:350px; padding:clamp(28px,4vw,48px); border:1px solid #d9e2ee; border-radius:22px; background:linear-gradient(145deg,#f8fbff,#eef4fb); box-shadow:0 20px 50px rgba(13,46,89,.09); }
 .opportunity-slide.is-active { display:block; animation:opportunityIn .28s ease both; }
+.opportunity-slide[hidden] { display:none !important; }
+
 @keyframes opportunityIn { from{opacity:.25;transform:translateX(12px)} to{opacity:1;transform:none} }
-.slide-count { color:#8295ad; font-weight:800; font-size:.78rem; letter-spacing:.16em; margin-bottom:10px; }
 .slide-kicker { color:var(--red); text-transform:uppercase; font-weight:800; letter-spacing:.13em; font-size:.78rem; margin-bottom:10px; }
 .opportunity-slide h3 { max-width:780px; margin:0 0 24px; font-size:clamp(1.75rem,3.3vw,3rem); line-height:1.05; }
 .opportunity-slide > p { max-width:790px; margin:22px 0 0; color:#243a58; line-height:1.65; }
@@ -613,7 +614,7 @@ body { padding-top: env(safe-area-inset-top, 0px); }
 .platform-mini strong { display:block; color:var(--navy); margin-bottom:5px; }
 .slide-emphasis { display:inline-block; max-width:760px; padding:15px 18px; background:#fff; border-left:4px solid var(--red); border-radius:0 10px 10px 0; color:var(--navy); font-weight:800; font-size:clamp(1rem,2vw,1.25rem); }
 .opportunity-slide--final .button { margin-top:24px; }
-.carousel-arrow { position:absolute; z-index:4; top:50%; width:44px; height:44px; padding:0; border:0; border-radius:50%; display:grid; place-items:center; background:var(--navy); color:#fff; box-shadow:0 8px 20px rgba(10,42,82,.2); font:400 2rem/1 Arial,sans-serif; cursor:pointer; transform:translateY(-70%); transition:transform .18s ease,background .18s ease; }
+.carousel-arrow { position:absolute; z-index:4; top:50%; width:44px; height:44px; padding:0; border:0; border-radius:50%; display:grid; place-items:center; background:var(--navy); color:#fff; box-shadow:0 8px 20px rgba(10,42,82,.2); font:700 1.15rem/1 Arial,sans-serif; cursor:pointer; transform:translateY(-70%); transition:transform .18s ease,background .18s ease; }
 .carousel-arrow:hover { background:var(--red); transform:translateY(-70%) scale(1.06); }
 .carousel-arrow--prev { left:0; }
 .carousel-arrow--next { right:0; }
