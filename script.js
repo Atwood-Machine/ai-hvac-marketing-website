@@ -198,3 +198,6 @@ if (opportunityCarousel) {
   }, { passive:true });
   show(0);
 }
+
+// Remove any legacy slide counters if an older HTML fragment is still cached/deployed.
+document.querySelectorAll('.slide-count, .carousel-counter, .opportunity-count').forEach((el) => el.remove());
