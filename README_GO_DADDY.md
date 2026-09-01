@@ -64,7 +64,7 @@ Then add this to `styles.css`:
 
 The contact form currently opens a prepared email addressed to:
 
-`richard@aihvacmarketing.com`
+`your-private-inbox@example.com`
 
 This works without a backend, but it relies on the visitor having an email application configured. Later, you can replace it with GoDaddy's form service, Formspree, HubSpot, or another lead-form endpoint.
 

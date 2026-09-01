@@ -18,7 +18,7 @@ This project must be deployed on Render as a **Web Service**, not a Static Site,
 
 Add these environment variables in Render:
 
-- `INTAKE_EMAIL` — placeholder: `intake@aihvacmarketing.com`
+- `INTAKE_EMAIL` — placeholder: `your-private-inbox@example.com`
 - `FROM_EMAIL` — mailbox used as the sender
 - `SMTP_HOST` — provided by the mailbox provider
 - `SMTP_PORT` — usually `587` or `465`
