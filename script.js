@@ -111,6 +111,39 @@ if (canUseHeroMotion) {
   });
 }
 
+// 60-second business-case carousel
+const carousel = document.querySelector('[data-carousel]');
+if (carousel) {
+  const track = carousel.querySelector('.carousel-track');
+  const slides = [...carousel.querySelectorAll('.case-slide')];
+  const dotsWrap = carousel.querySelector('.carousel-controls');
+  let index = 0;
+  const dots = slides.map((_, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Go to insight ${i + 1}`);
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+    return dot;
+  });
+  function goTo(next) {
+    index = (next + slides.length) % slides.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+  }
+  carousel.querySelector('.carousel-arrow--prev')?.addEventListener('click', () => goTo(index - 1));
+  carousel.querySelector('.carousel-arrow--next')?.addEventListener('click', () => goTo(index + 1));
+  let startX = null;
+  carousel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  carousel.addEventListener('touchend', e => {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 45) goTo(index + (dx < 0 ? 1 : -1));
+    startX = null;
+  }, { passive: true });
+}
+
 const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
 
